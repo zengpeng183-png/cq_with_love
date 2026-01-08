@@ -1,0 +1,104 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-serif: "Playfair Display", serif;
+  --font-sans: "Nunito", sans-serif;
+  
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+}
+
+:root {
+  --radius: 0.75rem;
+  
+  /* Soft Warm White Background */
+  --background: oklch(0.98 0.01 85); 
+  /* Dark Slate Grey Text */
+  --foreground: oklch(0.30 0.04 250);
+  
+  /* White Card */
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.30 0.04 250);
+  
+  /* Muted Sage Green Primary */
+  --primary: oklch(0.65 0.08 140);
+  --primary-foreground: oklch(0.98 0.01 85);
+  
+  /* Soft Peach/Beige Accent */
+  --accent: oklch(0.94 0.03 85);
+  --accent-foreground: oklch(0.30 0.04 250);
+  
+  --muted: oklch(0.96 0.01 85);
+  --muted-foreground: oklch(0.55 0.04 250);
+  
+  --border: oklch(0.92 0.02 85);
+  --input: oklch(0.92 0.02 85);
+  --ring: oklch(0.65 0.08 140);
+}
+
+.dark {
+  /* Dark Mode adjustments (optional, user wanted fresh/minimalist usually implies light, but supporting dark is good practice) */
+  --background: oklch(0.20 0.02 250);
+  --foreground: oklch(0.95 0.01 85);
+  
+  --card: oklch(0.25 0.02 250);
+  --card-foreground: oklch(0.95 0.01 85);
+  
+  --primary: oklch(0.70 0.08 140);
+  --primary-foreground: oklch(0.20 0.02 250);
+  
+  --accent: oklch(0.30 0.02 250);
+  --accent-foreground: oklch(0.95 0.01 85);
+  
+  --muted: oklch(0.30 0.02 250);
+  --muted-foreground: oklch(0.70 0.02 250);
+  
+  --border: oklch(0.30 0.02 250);
+  --input: oklch(0.30 0.02 250);
+  --ring: oklch(0.60 0.08 140);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif font-medium tracking-tight;
+  }
+}
+
+/* Custom Scrollbar hide for clean look if needed, but standard is fine. */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
