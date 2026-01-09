@@ -6,6 +6,6 @@ export interface DiaryEntry {
   title: string;
   description: string;
   mediaType: MediaType;
-  mediaSrc: string; // URL for image or video
+  mediaSrc: string | string[]; // URL for image or video
   mediaPoster?: string; // Poster for video
 }

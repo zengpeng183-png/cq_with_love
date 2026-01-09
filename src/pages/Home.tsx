@@ -1,8 +1,17 @@
 import { diaryData } from "@/data/diary";
 import TimelineItem from "@/components/TimelineItem";
-import heroImg from "@/assets/hero.jpg";
+import heroImg from "@/assets/封面.jpg";
 import { Heart } from "lucide-react";
 import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
+
+// Helper to extract year from date string (e.g., "2023-12-26" -> "2023")
+// If date is "Future" or invalid, returns a fallback or handles it gracefully
+const getYear = (dateStr: string) => {
+  if (dateStr === "Future") return "Future";
+  const year = dateStr.split("-")[0];
+  return isNaN(Number(year)) ? dateStr : year;
+};
 
 export default function Home() {
   return (
@@ -37,7 +46,7 @@ export default function Home() {
             transition={{ duration: 1, delay: 0.8 }}
             className="text-5xl md:text-7xl lg:text-8xl font-serif text-white drop-shadow-lg tracking-tight"
           >
-            晴晴和曾曾的恋爱日记
+            我们的恋爱日记
           </motion.h1>
 
           <motion.p 
@@ -46,7 +55,7 @@ export default function Home() {
             transition={{ duration: 1, delay: 1.2 }}
             className="text-white/90 text-lg md:text-xl font-light tracking-wide max-w-xl mx-auto drop-shadow-md"
           >
-            记录我们每一个心动的瞬间，从相遇的那一刻起...
+            记录我们每一个心动的瞬间，从相遇的那一刻起，直到永远。
           </motion.p>
         </div>
 
@@ -69,9 +78,29 @@ export default function Home() {
         <div className="absolute left-1/2 top-0 bottom-0 w-px bg-border hidden md:block -translate-x-1/2 z-0" />
 
         <div className="space-y-12 md:space-y-0 relative z-10">
-          {diaryData.map((entry, index) => (
-            <TimelineItem key={entry.id} entry={entry} index={index} />
-          ))}
+          {diaryData.map((entry, index) => {
+            const currentYear = getYear(entry.date);
+            const prevYear = index > 0 ? getYear(diaryData[index - 1].date) : null;
+            const showYear = currentYear !== prevYear;
+
+            return (
+              <div key={entry.id}>
+                {showYear && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    className="flex justify-center my-16 relative z-20"
+                  >
+                    <div className="bg-background border border-primary/20 px-8 py-2 rounded-full shadow-sm text-3xl font-serif text-primary italic">
+                      {currentYear}
+                    </div>
+                  </motion.div>
+                )}
+                <TimelineItem entry={entry} index={index} />
+              </div>
+            );
+          })}
         </div>
 
         {/* Ending Section */}
@@ -85,7 +114,7 @@ export default function Home() {
             <p className="font-serif text-2xl text-primary italic">"To be continued..."</p>
           </motion.div>
           <p className="text-muted-foreground text-sm">
-            Built with ❤️ for Us
+            Built with for CQ ❤️ ZZ 
           </p>
         </div>
       </main>
