@@ -1,4 +1,4 @@
-export type MediaType = 'image' | 'video';
+export type MediaType = 'image' | 'video' | 'text';
 
 export interface DiaryEntry {
   id: string;

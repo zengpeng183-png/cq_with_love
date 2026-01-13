@@ -36,22 +36,59 @@ export default function TimelineItem({ entry, index }: TimelineItemProps) {
     }
   };
 
+  // Special layout for Text-only entries
+  if (entry.mediaType === 'text') {
+    return (
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.95 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+        className="max-w-4xl mx-auto mb-24 text-center px-4 relative z-10"
+      >
+          <div className="bg-white/60 backdrop-blur-sm p-10 md:p-14 rounded-[2rem] border border-primary/10 shadow-xl relative overflow-hidden">
+              {/* Decorative background element */}
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+              
+              <div className="text-primary font-serif italic text-xl opacity-80 mb-6">
+                  {entry.date}
+              </div>
+              <h2 className="text-4xl md:text-5xl font-serif text-foreground mb-8 tracking-tight">
+                  {entry.title}
+              </h2>
+               <div className="w-16 h-1 bg-primary/30 mx-auto rounded-full mb-8" />
+              <p className="text-muted-foreground text-xl leading-relaxed font-light max-w-2xl mx-auto whitespace-pre-line">
+                  {entry.description}
+              </p>
+          </div>
+      </motion.div>
+    );
+  }
+
   const renderMedia = () => {
     if (entry.mediaType === 'video') {
       const src = Array.isArray(entry.mediaSrc) ? entry.mediaSrc[0] : entry.mediaSrc;
       return (
         <div className="relative w-full h-full aspect-[4/3] cursor-pointer bg-black rounded-2xl overflow-hidden shadow-xl" onClick={handlePlay}>
-          <video
-            ref={videoRef}
-            src={src}
-            poster={entry.mediaPoster}
-            className="w-full h-full object-cover"
-            playsInline
-            loop
-            onPlay={() => setIsPlaying(true)}
-            onPause={() => setIsPlaying(false)}
-          />
-          {!isPlaying && (
+          {src ? (
+             <video
+                ref={videoRef}
+                src={src}
+                poster={entry.mediaPoster}
+                className="w-full h-full object-cover"
+                playsInline
+                loop
+                onPlay={() => setIsPlaying(true)}
+                onPause={() => setIsPlaying(false)}
+              />
+          ) : (
+            <div className="w-full h-full bg-gray-900 flex items-center justify-center relative">
+               {entry.mediaPoster && <img src={entry.mediaPoster} className="absolute inset-0 w-full h-full object-cover opacity-50" />}
+               <Play className="w-12 h-12 text-white/50 relative z-10" />
+            </div>
+          )}
+         
+          {src && !isPlaying && (
             <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors">
               <div className="bg-white/90 backdrop-blur-sm p-4 rounded-full shadow-lg transition-transform group-hover:scale-110">
                 <Play className="w-8 h-8 text-primary fill-current ml-1" />
@@ -61,7 +98,6 @@ export default function TimelineItem({ entry, index }: TimelineItemProps) {
         </div>
       );
     }
-
     // Handle Images (Single or Multiple)
     const images = Array.isArray(entry.mediaSrc) ? entry.mediaSrc : [entry.mediaSrc];
     

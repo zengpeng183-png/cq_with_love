@@ -203,8 +203,8 @@ export const diaryData: DiaryEntry[] = [
     id: "20",
     date: "Future",
     title: "未完待续",
-    description: "我们的故事才刚刚开始呢。未来还有无数个日夜，无数个瞬间等待我们去创造。这段视频记录了我们的欢笑，也预示着更多美好的明天。",
-    mediaType: "video",
+    description: "我们的故事才刚刚开始呢。未来还有无数个日夜，无数个瞬间等待我们去创造。这本日记记录了我们的欢笑，也预示着更多美好的明天。",
+    mediaType: "text",
     mediaSrc: "", // User to replace
     mediaPoster: videoPoster,
   },
